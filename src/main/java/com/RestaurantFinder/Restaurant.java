@@ -1,3 +1,5 @@
+package com.RestaurantFinder;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,41 +16,37 @@ public class Restaurant {
         this.location = location;
         this.openingTime = openingTime;
         this.closingTime = closingTime;
+        //default menu items
+        this.menu.add(new Item("Lemon Rice",73));
+        this.menu.add(new Item("Sambar Rice",45));
+    }
+    public LocalTime getCurrentTime(){ return  LocalTime.now(); }
+
+    public LocalTime getOpeningTime() { return openingTime; }
+
+    public void setOpeningTime(LocalTime openingTime) {
+        this.openingTime = openingTime;
     }
 
-    public Restaurant(LocalTime of, LocalTime of1) {
+    public LocalTime getClosingTime() { return closingTime; }
 
+    public void setClosingTime(LocalTime closingTime) {
+        this.closingTime = closingTime;
     }
 
-    public boolean isRestaurantOpen(LocalTime currentTime) {
-        LocalTime currentTime1 = LocalTime.now();
-        return !currentTime.isBefore(openingTime) && !currentTime.isAfter(closingTime);
-
+    public boolean isRestaurantOpen(){
+        LocalTime time = LocalTime.now();
+        int isStillOpen = time.compareTo(closingTime);
+        int isOpen = time.compareTo(openingTime);
+        if(isStillOpen<0&&isOpen>=0){
+            return true;
+        }
+        return false;
     }
-    Restaurant restaurant = new Restaurant(LocalTime.of(10, 0), LocalTime.of(20, 0));
 
-    private LocalTime currentTime1;
-    boolean isOpen = restaurant.isRestaurantOpen(currentTime1);{
-
-        if (isOpen) {
-        System.out.println("The restaurant is open.");
-    } else {
-        System.out.println("The restaurant is closed.");
-    }
-}
-
- //public LocalTime getCurrentTime(){ return  LocalTime.now(); }
 
     public List<Item> getMenu() {
-        List<Item> menuItems = new ArrayList<>();
-
-        menuItems.add(new Item("Masala Dosa", (int) 10.99));
-        menuItems.add(new Item("Idli sambhar", (int) 8.49));
-        menuItems.add(new Item("Medu vada", (int) 12.99));
-
-
-        return menuItems;
-        //DELETE ABOVE RETURN STATEMENT AND WRITE CODE HERE
+        return this.menu;
     }
 
     private Item findItemByName(String itemName){
@@ -63,7 +61,7 @@ public class Restaurant {
         Item newItem = new Item(name,price);
         menu.add(newItem);
     }
-    
+
     public void removeFromMenu(String itemName) throws itemNotFoundException {
 
         Item itemToBeRemoved = findItemByName(itemName);
@@ -85,4 +83,11 @@ public class Restaurant {
         return name;
     }
 
+    public int getOrderValue(List<Item> item){
+        int totalValue = 0;
+        for (Item myItem : item) {
+            totalValue += myItem.getPrice();
+        }
+        return totalValue;
+    }
 }

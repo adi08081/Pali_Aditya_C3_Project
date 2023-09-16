@@ -1,21 +1,20 @@
+package com.RestaurantFinder;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RestaurantService {
     private static List<Restaurant> restaurants = new ArrayList<>();
-    private Restaurant[] restaurant;
 
-    public Restaurant findRestaurantByName(String restaurantName){
-        for (Restaurant restaurant : restaurant) {
-            if (restaurant.getName().equals(restaurantName)) {
-                return restaurant; // Found a restaurant with the given name
+    public Restaurant findRestaurantByName(String restaurantName) throws restaurantNotFoundException {
+        for(Restaurant rest : restaurants){
+            if(rest.getName().equals(restaurantName)){
+                return rest;
             }
         }
-
-        return null; // Restaurant not found
+        throw new restaurantNotFoundException(restaurantName);
     }
-        //DELETE ABOVE STATEMENT AND WRITE CODE HERE
 
 
     public Restaurant addRestaurant(String name, String location, LocalTime openingTime, LocalTime closingTime) {
